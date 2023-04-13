@@ -15,3 +15,8 @@ Solve static, dynamic, durability and fatigue problems fast and accurately with 
 ![multiphysics fluids](https://user-images.githubusercontent.com/130690758/231891588-1c6546aa-02b2-4f7f-87b8-a3291520884f.png)
 
 We all experience physics-related phenomena daily as fluids act in harmony with structures, magnetics and electrics in various complex ways. Hexagon’s computational fluid dynamics (CFD) solutions enable engineers to understand these phenomena and account for them in product development.
+
+## Multiphysics Acoustics
+![ Multiphysics Acoustics](https://user-images.githubusercontent.com/130690758/231894697-791432fc-5165-44e4-88cf-8e10dfee1960.png)
+
+From headphones and speakers to electric vehicles and aircraft, sound and noise, acoustics are increasingly important to consumer experience. Hexagon’s acoustic simulation tools enable designers and engineers to understand the key parameters of the sounds we hear and design for optimum acoustic performance.
