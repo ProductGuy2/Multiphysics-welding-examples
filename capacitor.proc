@@ -1,0 +1,531 @@
+*full_reset *new_model yes
+*open_model cap_mesh.mfd
+*prog_analysis_class electrostatic/structural
+@popup(meshgen_pm,0)
+*add_curves
+ point(  5.000000000000e-02,  0.000000000000e-02,  0.000000000000e-02)
+ point( -5.000000000000e-02,  0.000000000000e-02,  0.000000000000e-02)
+*fill_view
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*trans_model_cspace_y_for
+*trans_model_cspace_y_for
+*trans_model_cspace_y_for
+*trans_model_cspace_y_for
+*trans_model_cspace_y_for
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+@popdown(meshgen_pm,0)
+@popup(selection_control_pm,0)
+*select_method_box
+*select_elements
+-0.00407 0.00407
+-1 0.0136
+-1 1
+@main(toolbox)
+*new_match 2
+@popup(matchs_pm,0)
+*split_mesh_2d
+all_selected
+@popdown(matchs_pm,0)
+*select_clear
+@popdown(selection_control_pm,0)
+*new_mater standard *mater_option general:state:solid
+@popup(mat_pm,0)
+*material_name
+conductor
+*mater_param structural:youngs_modulus 124e9
+*mater_param structural:poissons_ratio 0.3
+@set($mat_prop_cdc,3)
+*mater_param e_permittivity:permittivity 0.001
+@popup(selection_control_pm,0)
+*select_method_flood
+*select_elements
+ 3
+ 103
+*add_mater_elements
+all_selected
+*new_mater standard *mater_option general:state:fluid
+*material_name
+air
+*mater_param e_permittivity:permittivity 8.854e-12
+*select_clear
+*select_elements
+ 731
+ 734
+*add_mater_elements
+all_selected
+*select_clear
+@popdown(selection_control_pm,0)
+@popdown(mat_pm,0)
+
+*new_cbody mesh *contact_option state:solid *contact_option skip_structural:off
+@popup(cbody_properties_pm,0)
+*contact_body_name
+plate_a
+@popup(selection_control_pm,0)
+*select_elements
+ 103
+*add_contact_body_elements
+all_selected
+*new_cbody mesh *contact_option state:solid *contact_option skip_structural:off
+@popup(cbody_properties_pm,0)
+*contact_body_name
+plate_b
+@popup(selection_control_pm,0)
+*select_clear
+*select_elements
+ 3
+*add_contact_body_elements
+all_selected
+
+*new_cbody mesh *contact_option state:fluid *contact_option skip_structural:off
+@popup(cbody_properties_pm,0)
+*contact_body_name
+air_inner
+@popup(selection_control_pm,0)
+*select_clear
+*select_elements
+ 731
+*add_contact_body_elements
+all_selected
+
+*new_cbody mesh *contact_option state:fluid *contact_option skip_structural:off
+@popup(cbody_properties_pm,0)
+*contact_body_name
+air_outer
+@popup(selection_control_pm,0)
+*select_clear
+*select_elements
+ 734
+*add_contact_body_elements
+all_selected
+
+@popup(selection_control_pm,0)
+*select_clear
+@popdown(selection_control_pm,0)
+
+*new_cbody symmetry
+@popup(cbody_properties_pm,0)
+*contact_body_name
+symmetry
+*add_contact_body_curves
+ 1
+# | End of List
+@popdown(cbody_properties_pm,0)
+
+*new_interact mesh:mesh *interact_option state_1:fluid *interact_option state_2:fluid
+@popup(interact_properties_pm,0)
+*interact_name air_air
+
+*new_interact mesh:mesh *interact_option state_1:fluid *interact_option state_2:solid
+@popup(interact_properties_pm,0)
+*interact_name air_plate
+*interact_option contact_type:glue
+
+*new_interact mesh:symmetry *interact_option state_1:fluid
+@popup(interact_properties_pm,0)
+*interact_name air_symmetry
+
+*new_interact mesh:symmetry *interact_option state_1:solid
+@popup(interact_properties_pm,0)
+*interact_name plate_symmetry
+@popdown(interact_properties_pm,0)
+
+@main(contact)
+*new_contact_table
+@set($r2,2)
+@set($r3,3)
+@set($r4,4)
+@set($r5,5)
+@set($r6,6)
+@set($r7,7)
+@set($r8,8)
+@set($r9,9)
+@set($r10,10)
+@set($r11,11)
+@set($r12,12)
+@set($r13,13)
+@set($r14,14)
+@set($r15,15)
+@set($c1,1)
+@set($c2,2)
+@set($c3,3)
+@set($c4,4)
+@set($c5,5)
+@set($c6,6)
+@set($c7,7)
+@set($c8,8)
+@set($c9,9)
+@set($c10,10)
+@set($c11,11)
+@set($c12,12)
+@set($c13,13)
+@set($c14,14)
+@set($c15,15)
+@popup(ctable_props_pm,0)
+
+*ctable_entry air_inner air_outer
+@popup(ctable_entry_pm,0)
+*contact_table_option air_inner air_outer contact:on
+@popup(ctable_entry_interact_pm,0)
+*prog_string ctable:old_interact air_air *ctable_entry_interact air_inner air_outer
+@popdown(ctable_entry_interact_pm,0)
+*ctable_entry air_inner plate_a
+@popup(ctable_entry_pm,0)
+*contact_table_option air_inner plate_a contact:on
+@popup(ctable_entry_interact_pm,0)
+*prog_string ctable:old_interact air_plate *ctable_entry_interact air_inner plate_a
+@popdown(ctable_entry_interact_pm,0)
+*ctable_entry air_inner plate_b
+@popup(ctable_entry_pm,0)
+*contact_table_option air_inner plate_b contact:on
+@popup(ctable_entry_interact_pm,0)
+*prog_string ctable:old_interact air_plate *ctable_entry_interact air_inner plate_b
+@popdown(ctable_entry_interact_pm,0)
+*ctable_entry air_inner symmetry
+@popup(ctable_entry_pm,0)
+*contact_table_option air_inner symmetry contact:on
+@popup(ctable_entry_interact_pm,0)
+*prog_string ctable:old_interact air_symmetry *ctable_entry_interact air_inner symmetry
+@popdown(ctable_entry_interact_pm,0)
+*ctable_entry air_outer symmetry
+@popup(ctable_entry_pm,0)
+*contact_table_option air_outer symmetry contact:on
+@popup(ctable_entry_interact_pm,0)
+@popdown(ctable_entry_interact_pm,0)
+*prog_string ctable:old_interact air_symmetry *ctable_entry_interact air_outer symmetry
+*ctable_entry plate_a symmetry
+@popup(ctable_entry_pm,0)
+*contact_table_option plate_a symmetry contact:on
+@popup(ctable_entry_interact_pm,0)
+*prog_string ctable:old_interact plate_symmetry *ctable_entry_interact plate_a symmetry
+@popdown(ctable_entry_interact_pm,0)
+*ctable_entry plate_b symmetry
+@popup(ctable_entry_pm,0)
+*contact_table_option plate_b symmetry contact:on
+@popup(ctable_entry_interact_pm,0)
+*prog_string ctable:old_interact plate_symmetry *ctable_entry_interact plate_b symmetry
+@popdown(ctable_entry_interact_pm,0)
+@popdown(ctable_entry_pm,0)
+@popdown(ctable_props_pm,0)
+
+
+@main(links)
+*new_link *link_class spring *spring_option spring_type:fixed_dof
+@popup(link_spring_pm,0)
+@set($class,spring)
+*link_class spring *spring_param stiffness 50
+*link_class spring *spring_node 0
+1
+*link_class spring *spring_node 1
+103
+@popdown(link_spring_pm,0)
+
+*elements_solid *regenerate
+*set_nodes off
+*regenerate
+*identify_contact *regenerate
+*zoom_out
+*zoom_out
+*zoom_out
+*trans_model_cspace_y_rev
+*set_nodes on
+*regenerate
+
+
+@main(boundary_conditions)
+*new_apply *apply_type fixed_displacement
+@set($dof1txt,DISPLACEMENT X)
+@set($dof1,x)
+@set($dof2txt,DISPLACEMENT Y)
+@set($dof2,y)
+@set($dof3txt,DISPLACEMENT Z)
+@set($dof3,z)
+@set($dof4txt,ROTATION X)
+@set($dof4,rx)
+@set($dof5txt,ROTATION Y)
+@set($dof5,ry)
+@set($dof6txt,ROTATION Z)
+@set($dof6,rz)
+@set($usersubfv,FORCDT)
+@popup(apply_properties_pm,0)
+*apply_name fix
+*apply_dof x *apply_dof_value x
+*add_apply_nodes
+ 1 4 #
+*new_apply *apply_type fixed_elec_potential
+@set($dof1txt,POTENTIAL (TOP))
+@set($dof1,v)
+@set($dof2txt,POTENTIAL (BOTTOM))
+@set($dof2,vbot)
+@set($dof3txt,POTENTIAL (MIDDLE))
+@set($dof3,vmid)
+
+@popup(apply_properties_pm,0)
+*apply_dof v *apply_dof_value v
+*add_apply_nodes
+4 #
+@main(tables_etc)
+*new_md_table 1 1
+@popup(table_pm,0)
+*table_name ramp
+*set_md_table_type 1
+@popup(table_type_pm,0)
+@popdown(table_type_pm,0)
+time
+*table_add
+0 0
+1
+1
+@popdown(table_pm,0)
+*apply_name pot_0
+*new_apply *apply_type point_charge
+@set($dof1txt,CHARGE (TOP))
+@set($dof1,q)
+@set($dof2txt,CHARGE (BOTTOM))
+@set($dof2,qbot)
+@set($dof3txt,CHARGE (MIDDLE))
+@set($dof3,qmid)
+@set($labeltxt,SHELL ELEMENTS)
+@set($usersubfv,FORCDT)
+@popup(apply_properties_pm,0)
+*apply_name load
+*apply_dof q *apply_dof_value q
+*apply_dof_value q 2e-8
+*apply_dof_table q
+@set($tbl_typ,any)
+@set($tbl_nam,ALL TYPES)
+@popup(apply_dof1_table_pm,0)
+ramp
+@popdown(apply_dof1_table_pm,0)
+*add_apply_nodes
+104
+#
+@popdown(apply_properties_pm,0)
+
+@main(mesh_adaptivity)
+@popdown(apply_properties_pm,0)
+*new_adapg *adapg_type delaunay_tria
+@set($angle_type,tria)
+@set($angle,60)
+@set($edge_len,del_edge_len)
+@set($min_edge_len,del_min_edge_len)
+@popup(adapg_properties_pm,0)
+*adapg_option increment_crit:on
+*adapg_param increment_freq 5
+*adapg_param del_edge_len 0.0004
+*adapg_rmsh_body
+@popup(adapg_select_rmsh_body_pm,0)
+@popdown(adapg_select_rmsh_body_pm,0)
+air_inner
+@popdown(adapg_properties_pm,0)
+
+
+
+
+
+@main(loadcases)
+*new_loadcase *loadcase_type elsta/struc:steady/static
+@popup(lcase_properties_pm,0)
+*loadcase_name capacitor
+@popup(contact_lcase_popmenu,0)
+*loadcase_ctable
+@popup(select_ctable_pm,0)
+ctable1
+@popdown(select_ctable_pm,0)
+@popdown(contact_lcase_popmenu,0)
+@popup(lcase_adaptive_pm,0)
+*add_loadcase_adapgs adapg1
+@popdown(lcase_adaptive_pm,0)
+@popup(lcase_conv_test_pm,0)
+*loadcase_option converge:displacements
+@popdown(lcase_conv_test_pm,0)
+*loadcase_value time 0.5
+*loadcase_option stepping:multicriteria
+@popup(multicriteria_load_popmenu,0)
+@popup(multicriteria_user_phys_crit_pm,0)
+*loadcase_option multi_crit_9:disp
+@set($critnum,9)
+@set($critname,DISPLACEMENT INCREMENT)
+@set($x,DISPLACEMENT)
+@set($y,DISPLACEMENT INC.)
+@set($lowbnd,0)
+@set($uppbnd,1e20)
+@popup(multicriteria_parameters_popmenu,0)
+*loadcase_value mc_dely1_9 3e-6
+@popdown(multicriteria_parameters_popmenu,0)
+*loadcase_autoload_set 9
+@set($store_type,NODES)
+@popdown(multicriteria_user_phys_crit_pm,0)
+*loadcase_option multi_criteria_mode:target
+@popdown(multicriteria_load_popmenu,0)
+@popdown(lcase_properties_pm,0)
+
+
+@popup(selection_control_pm,0)
+@popup(select_cbody_entities_pm,0)
+*select_contact_body plate_a
+*select_contact_body plate_b
+@popdown(select_cbody_entities_pm,0)
+@main(jobs)
+@set($eltypemode,element)
+@popup(element_types_pm,0)
+@popup(etp_axisym_solid_structural_pm,0)
+*element_type 10
+all_selected
+@popdown(etp_axisym_solid_structural_pm,0)
+@popup(etp_axisym_solid_electrostatic_pm,0)
+*element_type 38
+all_unselected
+@popdown(element_types_pm,0)
+@popdown(etp_axisym_solid_electrostatic_pm,0)
+
+
+*prog_use_current_job on *new_job electrostatic/structural
+@popup(job_properties_pm,0)
+*job_name capacitor
+*add_job_loadcases capacitor
+@popup(init_loads_popmenu,0)
+@popdown(init_loads_popmenu,0)
+@popup(job_contact_pm,0)
+@popup(job_advanced_contact_popmenu,0)
+@popdown(job_advanced_contact_popmenu,0)
+@popup(job_init_contact_popmenu,0)
+*job_contact_table
+@popup(job_ctable_pm,0)
+ctable1
+@popdown(job_ctable_pm,0)
+@popdown(job_init_contact_popmenu,0)
+@popdown(job_contact_pm,0)
+@set($phys,ELECTROSTATIC/STRUCTURAL)
+@popup(job_an_opts_coup_popmenu,0)
+@popdown(job_an_opts_coup_popmenu,0)
+@popup(job_results_pm,0)
+*add_post_tensor stress
+*add_post_var elec_field_1
+*add_post_var elec_field_2
+*add_post_var elec_field_3
+*add_post_var elec_disp_1
+*job_option nod_quantities:manual
+*add_post_nodal_quantity Elec_Potential
+*add_post_nodal_quantity Ext_Elec_Char
+*add_post_nodal_quantity Rea_Elec_Char
+*add_post_nodal_quantity Displacement
+*add_post_nodal_quantity Rea_Force
+*add_post_nodal_quantity Coul_Force
+*add_post_nodal_quantity Cont_Status
+@popdown(job_results_pm,0)
+
+| Create analytical table
+*xy_plot_clear
+*new_md_table 1 1
+@popup(table_pm,0)
+*set_md_table_method_formula
+*md_table_formula  sqrt(2*50/8.854e-12/pi/0.01^2*(0.0004-v1)^2*(v1))
+*set_md_table_step_v 1 100
+*set_md_table_max_v 1 0.0004
+*md_table_reeval
+*table_fit
+*set_md_table_method_data_points
+*table_swapxy
+*table_fit
+*get_table_plots
+
+*set_save_formatted off *save_as_model "capacitor.mud" yes
+
+|@|*save_as_model ug.e010.capacitor.01.mfd yes
+|@|*write_marc ug.e010.capacitor.01.dat yes
+|@|*quit yes
+*update_job
+@popup(job_run_popmenu,0)
+*submit_job 1 *monitor_job
+*pause 10
+*monitor_job
+@popdown(job_properties_pm) @main(results) @popup(modelplot_pm) *post_open_default
+@popdown(job_run_popmenu,0)
+@popup(post_history_plot_pm,0)
+*set_history_locations
+104 #
+*history_collect 0 999999999 1
+@popup(history_nodes_vars_pm,0)
+*prog_option history_plot:data_carrier_type_x:location
+*set_history_location_variable_x
+Electric Potential
+*prog_option history_plot:data_carrier_type_y:location
+*set_history_location_variable_y
+Displacement X
+*history_add_curve
+*history_fit
+@popdown(history_nodes_vars_pm,0)
+*set_history_increment_id 0
+*get_history_plots
+@popup(xy_plot_screen_pm,0)
+*xy_plot_fit
+*set_xy_plot_point_id 0
+*set_xy_plot_xname
+Electrostatic Potential [V]
+*set_xy_plot_yname
+Air Gap Closing Displacement (g0-g) [m]
+*set_xy_plot_curve_name
+ 1
+Analytical
+*set_xy_plot_curve_name
+ 2
+Marc
+
+*post_contour_bands
+*post_value 1st Comp of Electric Field Intensity
+*set_nodes off
+*regenerate
+*post_skip_to
+10
+*post_value Electric Potential
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*zoom_in
+*post_symbols
+*post_off
+*select_clear
+*post_skip_to
+50
+*post_skip_to
+100
+*post_skip_to_last
+
+
+
+
+
