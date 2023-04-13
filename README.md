@@ -1,6 +1,6 @@
 # Hexagon's Multiphysics Suite
-[Hexagon's Multiphysics Suite](https://hexagon.com/products/product-groups/computer-aided-engineering-software/multiphysics-simulation-software)
-The Multiphysics suite from Hexagon is a scalable portfolio of products that brings the power of cutting-edge, physics-based simulation technologies to solve real-world engineering problems.
+[The Multiphysics suite from Hexagon](https://hexagon.com/products/product-groups/computer-aided-engineering-software/multiphysics-simulation-software)
+ is a scalable portfolio of products that brings the power of cutting-edge, physics-based simulation technologies to solve real-world engineering problems.
 
 Carrying a long tradition of technical expertise and industry knowledge, we bring the most advanced technologies to solve industrially relevant problems with pragmatic solutions such as vertical applications with built-in domain expertise. Customisation and automation provide access to a rich pool of solutions from 1D solvers to front-end geometry handling, CAD, and meshing technologies
 
