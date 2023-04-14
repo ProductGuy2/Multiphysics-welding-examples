@@ -1,0 +1,152 @@
+*full_reset *new_model yes
+*prog_analysis_class structural
+*prog_use_current_job on
+*set_default_length_unit millimeter
+*set_model_length_unit millimeter
+|
+*open_model "gear_cyclic.mud"
+*set_nodes off *redraw
+*edges_outline *set_elements on *set_edges on *find_solid_outline *redraw
+*identify_contact *redraw
+*fill_view
+*elements_solid *redraw
+*model_orientation iso1
+@popup(plot_popmenu,0)
+@popup(plot_applys_popmenu,0)
+@popup(arrow_popmenu,0)
+*arrows_solid *redraw
+@popdown(arrow_popmenu,0)
+@popdown(plot_applys_popmenu,0)
+@popdown(plot_popmenu,0)
+*elements_wireframe *redraw
+*edit_apply Electric_Potential_0
+@main(boundary_conditions)
+
+@set($dof1txt,POTENTIAL)
+*edit_apply Electric_Potential_0
+@set($dof1,v)
+@set($usersubfv,FORCDF)
+@popup(apply_properties_pm,0)
+*element_face_display_off
+*orient_display_off
+*point_display_off
+*regenerate
+@popdown(apply_properties_pm,0)
+*edit_apply Magnetic_Potential_0
+
+*edit_apply Magnetic_Potential_0
+@set($dof1txt,POTENTIAL X)
+@set($dof1,ax)
+@set($dof2txt,POTENTIAL Y)
+@set($dof2,ay)
+@set($dof3txt,POTENTIAL Z)
+@set($dof3,az)
+@popup(apply_properties_pm,0)
+*element_face_display_on
+*orient_display_on
+*point_display_on
+*regenerate
+@popdown(apply_properties_pm,0)
+*edit_loadcase Heating
+@main(loadcases)
+
+*edit_loadcase Heating
+@popup(lcase_properties_pm,0)
+@popdown(lcase_properties_pm,0)
+*edit_contact_table Heating_ctable
+@main(contact)
+
+@popup(ctable_props_pm,0)
+*edit_contact_table Heating_ctable
+@popdown(ctable_props_pm,0)
+*edit_contact_table Cooling_ctable
+
+@popup(ctable_props_pm,0)
+*edit_contact_table Cooling_ctable
+@popdown(ctable_props_pm,0)
+*edit_job Heat_Treatment
+@main(jobs)
+
+@popup(job_properties_pm,0)
+*edit_job Heat_Treatment
+@popdown(job_properties_pm,0)
+*edit_job Heat_Treatment
+
+@popup(job_properties_pm,0)
+*edit_job Heat_Treatment
+@popup(cyc_symm_pm,0)
+@popdown(cyc_symm_pm,0)
+@popdown(job_properties_pm,0)
+*edit_job Heat_Treatment
+
+@popup(job_properties_pm,0)
+*edit_job Heat_Treatment
+@popdown(job_properties_pm,0)
+*edit_loadcase Heating
+@main(loadcases)
+
+@popup(lcase_properties_pm,0)
+*edit_loadcase Heating
+@popdown(lcase_properties_pm,0)
+*edit_loadcase Cooling
+
+@popup(lcase_properties_pm,0)
+*edit_loadcase Cooling
+@popup(select_harmonic_loads_popmenu,0)
+@popdown(select_harmonic_loads_popmenu,0)
+@popdown(lcase_properties_pm,0)
+*edit_job Heat_Treatment 
+@popup(job_run_popmenu,0)
+|@|*save_as_model ug.e122.gear_cyclic.01.mfd yes
+|@|*write_marc ug.e122.gear_cyclic.01.dat yes
+|@|*quit yes
+*job_submit_reset
+*submit_job 1 *monitor_job
+@popdown(job_properties_pm) @main(results) @popup(modelplot_pm) *post_open_default
+@popdown(job_run_popmenu,0)
+*fill_view
+*edges_surface *redraw
+*model_orientation front
+*model_orientation iso1
+*edit_contact_body InnerAir
+*invisible_bodies InnerAir # *redraw
+@main(contact)
+*redraw
+*edit_contact_body OuterAir
+*invisible_bodies OuterAir # *redraw
+*redraw
+*edit_contact_body Coil
+*invisible_bodies Coil # *redraw
+*redraw
+*edit_contact_body BelowGearAir
+*invisible_bodies BelowGearAir # *redraw
+*redraw
+*edit_contact_body SymmSurface
+*invisible_bodies SymmSurface # *redraw
+*redraw
+*set_nodes off *redraw
+*dynamic_model_on
+*fill_view
+*levels 16
+*post_contour_bands
+*post_skip_to_last
+@popup(post_scalar_pm,0)
+*post_value Fraction of Austenite
+@popdown(post_scalar_pm,0)
+@main(results)
+@popup(modelplot_pm,0)
+@popup(scalar_plot_settings_pm,0)
+@set($show_nodal_avg,true)
+@popup(post_extrapolation_pm,0)
+*post_extrap_average
+@popdown(post_extrapolation_pm,0)
+@popdown(scalar_plot_settings_pm,0)
+@popup(scalar_plot_settings_pm,0)
+@popup(post_extrapolation_pm,0)
+@popdown(post_extrapolation_pm,0)
+@popdown(scalar_plot_settings_pm,0)
+*dynamic_model_off
+@popup(post_scalar_pm,0)
+*post_value Fraction of Martensite
+*post_value Current Density (Integration Point)
+*post_value Equivalent Von Mises Stress
