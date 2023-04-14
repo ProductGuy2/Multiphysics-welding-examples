@@ -1,0 +1,419 @@
+*full_reset *new_model yes
+|
+| First set the model analysis dimension
+*set_model_analysis_dimension axisym
+|
+*prog_analysis_class thermal/structural
+@main(geometry_mesh)
+@popup(meshgen_pm,0)
+@popdown(meshgen_pm,0)
+*add_nodes
+0.1 0.1945 0
+0.5 0.1945 0
+0.5 0.2045 0
+0.1 0.2045 0
+0.25 0.205 0
+0.35 0.205 0
+0.35 0.315 0
+0.25 0.315 0
+*add_elements
+1 2 3 4
+5 6 7 8
+*sub_divisions
+16 3 1
+*subdivide_elements
+ 1
+# | End of List
+@popup(subdivide_pm,0)
+@popdown(subdivide_pm,0)
+*sub_divisions
+6 6 1
+*subdivide_elements
+ 2
+# | End of List
+*sweep_all
+*remove_unused_nodes
+@popup(sweep_pm,0)
+@popdown(sweep_pm,0)
+@popup(renumber_pm,0)
+@popdown(renumber_pm,0)
+*renumber_all
+*fill_view
+*apply_type fixed_displacement
+*apply_name fixed_disp
+*apply_dof x *apply_dof_value x
+*add_apply_nodes
+ 1
+ 8
+# | End of List
+*new_apply
+*new_md_table 1 1
+*table_name tempe_bc
+*set_md_table_type 1
+time
+*table_add
+0 298
+1000 498
+5000 498
+*table_fit
+*get_table_plots
+*xy_plot_fit
+*set_xy_plot_xname
+Time
+*set_xy_plot_yname
+Temperature
+*xy_plot_clear
+@main(tables_etc)
+@popup(table_pm,0)
+@popdown(table_pm,0)
+*apply_type fixed_temperature
+*apply_name fixed_temp
+*apply_dof t *apply_dof_value t
+*apply_dof_table t
+tempe_bc
+*add_apply_nodes
+ 1 2 11 15 19 23 27 31 35 39 43 47 51 55 59 63 67
+# | End of List
+*edit_apply fixed_disp 
+@set($dof1txt,DISPLACEMENT X)
+@set($dof1,x)
+@set($dof2txt,DISPLACEMENT Y)
+@set($dof2,y)
+@set($dof3txt,DISPLACEMENT Z)
+@set($dof3,z)
+@set($dof4txt,ROTATION X)
+@set($dof4,rx)
+@set($dof5txt,ROTATION Y)
+@set($dof5,ry)
+@set($dof6txt,ROTATION Z)
+@set($dof6,rz)
+@set($usersubfv,FORCDT)
+@popup(apply_properties_pm,0)
+*edit_apply fixed_temp
+@set($dof1txt,TEMPERATURE)
+@set($dof1,t1)
+@set($dof2txt,TEMPERATURE)
+@set($dof2,t1)
+@popdown(apply_properties_pm,0)
+*icond_type temperature
+*icond_dof t *icond_dof_value t
+298
+*add_icond_nodes
+all_existing
+*icond_name tempe_ini
+@main(initial_conditions)
+@set($dof1txt,TEMPERATURE)
+@set($dof1,t1)
+@set($dof2txt,TEMPERATURE)
+@set($dof2,t1)
+@popup(icond_properties_pm,0)
+@popdown(icond_properties_pm,0)
+*material_name
+alu
+@popup(mat_pm,0)
+*material_type mechanical:isotropic
+*material_value isotropic:youngs_modulus
+7.1e10
+*material_value isotropic:poissons_ratio
+0.3
+*material_value isotropic:mass_density
+2700
+*material_type thermal_expansion:iso_thermal
+*material_value iso_thermal:thermal_exp
+2.3e-5
+*material_type heat
+*material_value heat:conductivity
+237
+*material_value heat:specific_heat
+880
+*material_value heat:mass_density
+2700
+*add_material_elements
+ 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74
+ 75 76 77 78 79 80 81 82 83 84
+# | End of List
+*edit_mater alu
+@main(material_properties)
+@set($mat_prop_cdc,3)
+@set($mat_prop_cdc,2)
+@popdown(mat_pm,0)
+*new_material
+*material_name
+copper
+*material_type mechanical:isotropic
+*material_value isotropic:youngs_modulus
+1.24e11
+*material_value isotropic:poissons_ratio
+0.3
+*material_value isotropic:mass_density
+8960
+*material_type thermal_expansion:iso_thermal
+*material_value iso_thermal:thermal_exp
+1.68e-5
+*material_type heat
+*material_value heat:conductivity
+390
+*material_value heat:specific_heat
+387
+*material_value heat:mass_density
+8960
+*add_material_elements
+ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29
+ 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48
+# | End of List
+*new_cbody mesh *contact_option state:solid *contact_option skip_structural:off
+*add_contact_body_elements
+ 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74
+ 75 76 77 78 79 80 81 82 83 84
+# | End of List
+*contact_body_name body_housing
+@popup(cbody_properties_pm,0)
+@popdown(cbody_properties_pm,0)
+*new_cbody mesh *contact_option state:solid *contact_option skip_structural:off
+*add_contact_body_elements
+ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29
+ 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48
+# | End of List
+*contact_body_name body_pipe
+*new_interact mesh:mesh *interact_option state_1:solid *interact_option state_2:solid
+@popup(interact_properties_pm,0)
+*interact_name interact_nc
+@popup(interact_near_contact_pm,0)
+*interact_option near_contact:on
+*interact_param near_contact_distance 0.0003
+@set($cta_cdc,3)
+*interact_param dist_dep_heat 1
+@popdown(interact_near_contact_pm,0)
+*interact_param heat 100
+@popdown(interact_properties_pm,0)
+*edit_interact interact_nc *copy_interact
+@popup(interact_properties_pm,0)
+*edit_interact interact_nc(1) 
+*interact_name interact_c
+*interact_option near_contact:off
+@popdown(interact_properties_pm,0)
+*new_contact_table
+@popup(ctable_props_pm,0)
+*contact_table_name ctable_nc
+*ctable_entry body_housing body_pipe
+*contact_table_option body_housing body_pipe contact:on
+*prog_string ctable:old_interact interact_nc *ctable_entry_interact body_housing body_pipe
+@popup(ctable_entry_pm,0)
+*contact_table_option body_housing body_pipe detection:first_second
+@popdown(ctable_entry_pm,0)
+@popdown(ctable_props_pm,0)
+*edit_contact_table ctable_nc *copy_contact_table
+*contact_table_name ctable_c
+@popup(ctable_props_pm,0)
+*ctable_entry body_housing body_pipe
+@popup(ctable_entry_pm,0)
+*prog_string ctable:old_interact interact_c *ctable_entry_interact body_housing body_pipe
+@popdown(ctable_props_pm,0)
+@popdown(ctable_entry_pm,0)
+*new_loadcase *loadcase_type therm/struc:trans/static
+*loadcase_name
+ramped_temp_nc
+*loadcase_value time
+1000
+*loadcase_value nsteps
+100
+*loadcase_ctable
+ctable_nc
+*loadcase_value maxrec
+10
+*loadcase_option converge:displacements
+*copy_loadcase
+*loadcase_name
+cst_temp_nc
+*loadcase_value time
+10000
+*loadcase_value nsteps
+250
+*element_type 10
+all_existing
+*prog_use_current_job on *new_job thermal/structural
+*job_name jobnc
+*add_job_loadcases ramped_temp_nc
+*add_job_loadcases cst_temp_nc
+*job_contact_table
+ctable_nc
+*edit_loadcase
+ramped_temp_nc
+*copy_loadcase
+*loadcase_name
+ramped_temp
+*loadcase_ctable
+ctable_c
+*edit_loadcase
+cst_temp_nc
+*copy_loadcase
+*loadcase_name
+cst_temp
+*loadcase_ctable
+ctable_c
+*prog_use_current_job on *new_job thermal/structural
+*job_name jobc
+*add_job_loadcases ramped_temp
+*add_job_loadcases cst_temp
+*job_contact_table
+ctable_c
+@main(loadcases)
+*edit_loadcase ramped_temp_nc 
+@popup(lcase_properties_pm,0)
+*edit_loadcase cst_temp_nc
+@popdown(lcase_properties_pm,0)
+*set_save_formatted off *save_as_model "pipe.mud" yes
+*edit_job
+jobnc
+*edit_job jobnc 
+@popup(job_properties_pm,0)
+@popup(job_an_opts_mech_popmenu,0)
+*job_option strain:small
+@popdown(job_an_opts_mech_popmenu,0)
+@popup(init_loads_popmenu,0)
+@popdown(init_loads_popmenu,0)
+@popdown(job_properties_pm,0)
+@popup(job_run_popmenu)
+|@|*save_as_model ug.e080.pipe.01.mfd yes
+|@|*write_marc ug.e080.pipe.01.dat yes
+|@|*quit yes
+*submit_job 1
+*pause 10
+*monitor_job
+@popdown(job_run_popmenu)
+*post_open_default
+*set_history_nodes
+ 5 34
+# | End of List
+*history_collect 0 999999999 1
+*set_history_increment_id
+0
+*prog_option history_plot:data_carrier_type_x:global
+*set_history_global_variable_x
+Time
+*prog_option history_plot:data_carrier_type_y:location
+*set_history_location_variable_y
+Temperature
+*history_add_curve
+*history_fit
+*get_history_plots
+*xy_plot_reset_label
+*xy_plot_fit
+*post_close
+*edit_job jobc
+@popup(job_properties_pm,0)
+@popup(job_an_opts_mech_popmenu,0)
+*job_option strain:small
+@popdown(job_an_opts_mech_popmenu,0)
+@popdown(job_properties_pm,0)
+@popup(job_run_popmenu)
+*submit_job 1 *monitor_job
+*pause 10
+*monitor_job
+@popdown(job_run_popmenu)
+*post_open_default
+*set_history_nodes
+ 5 34
+# | End of List
+*history_collect 0 999999999 1
+*set_history_increment_id
+0
+*history_add_curve
+*history_fit
+*get_history_plots
+*xy_plot_fit
+*set_xy_plot_curve_name
+1
+node on housing near contact
+2
+node on pipe near contact
+3
+node on housing contact
+4
+node on pipe contact
+*set_xy_plot_xname
+Time
+*set_xy_plot_yname
+Temperature
+*set_xy_plot_point_id 0
+*xy_plot_clear
+*history_clear
+*post_close
+@main(results) @popup(modelplot_pm) *post_open "pipe_jobnc.t16"
+*set_history_nodes
+ 5 34
+# | End of List
+*history_collect 0 999999999 1
+*set_history_increment_id
+0
+*set_history_location_variable_y
+Displacement Y
+*history_add_curve
+*history_fit
+*get_history_plots
+*xy_plot_fit
+*post_close
+@main(results) @popup(modelplot_pm) *post_open "pipe_jobc.t16"
+*set_history_nodes
+ 5 34
+# | End of List
+*history_collect 0 999999999 1
+*set_history_increment_id
+0
+*history_add_curve
+*history_fit
+*get_history_plots
+*xy_plot_fit
+*set_xy_plot_curve_name
+1
+node on housing near contact
+2
+node on pipe near contact
+3
+node on housing contact
+4
+node on pipe contact
+*set_xy_plot_xname
+Time
+*set_xy_plot_yname
+Displacement Y
+*set_xy_plot_point_id 0
+*post_close
+*xy_plot_clear
+@main(results) @popup(modelplot_pm) *post_open "pipe_jobnc.t16"
+*set_history_nodes
+ 5
+# | End of List
+*history_collect 0 999999999 1
+*set_history_increment_id
+0
+*set_history_location_variable_y
+Contact Status
+*history_add_curve
+*history_fit
+*get_history_plots
+*xy_plot_fit
+*post_close
+@main(results) @popup(modelplot_pm) *post_open "pipe_jobc.t16"
+*set_history_nodes
+ 5
+# | End of List
+*history_collect 0 999999999 1
+*set_history_increment_id
+0
+*history_add_curve
+*history_fit
+*get_history_plots
+*xy_plot_fit
+*set_xy_plot_curve_name
+1
+with near contact
+2
+without near contact
+*set_xy_plot_xname
+Time
+*set_xy_plot_yname
+Contact Status
+*set_xy_plot_point_id 0
+
+
