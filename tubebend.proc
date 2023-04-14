@@ -1,0 +1,137 @@
+*full_reset *new_model yes
+*prog_analysis_class structural
+*prog_use_current_job on
+*set_default_length_unit millimeter
+*set_model_length_unit millimeter
+|
+*open_model "tubebend.mud"
+*reset_view
+*fill_view
+@popup(selection_control_pm,0)
+*select_surfaces
+ 7
+# | End of List
+@popdown(selection_control_pm,0)
+*invisible_selected
+*surfaces_solid *set_surface_lines off *regenerate
+@popup(plot_popmenu,0)
+*set_nodes off
+*set_points off
+||  *set_surfaces off
+*elements_solid
+*regenerate
+@popdown(plot_popmenu,0)
+*surfaces_solid  *regenerate
+@popup(view_lighting_pm,0)
+@set($v,1)
+*set_lighting 1 on
+*set_light 1 1 on
+*set_light 1 2 on
+*set_light 1 3 on
+*set_light 1 4 on
+*set_light 1 6 on
+@popdown(view_lighting_pm,0)
+*fill_view
+*rot_model_cspace_x_rev
+*rot_model_cspace_x_rev
+*rot_model_cspace_x_rev
+*rot_model_cspace_x_rev
+*rot_model_cspace_x_rev
+*rot_model_cspace_x_rev
+*rot_model_cspace_x_rev
+*rot_model_cspace_x_rev
+*rot_model_cspace_y_rev
+*rot_model_cspace_y_rev
+*rot_model_cspace_x_for
+*rot_model_cspace_x_for
+*trans_model_cspace_x_for
+*trans_model_cspace_x_for
+*trans_model_cspace_x_for
+*set_save_formatted off *save_as_model "tubebend_test.mud" yes
+@main(loadcases)
+*edit_loadcase lcase1 
+@popup(lcase_properties_pm,0)
+@popup(mech_solution_control,0)
+@popdown(mech_solution_control,0)
+@popdown(lcase_properties_pm,0)
+@main(jobs)
+*edit_job job1 
+@popup(job_properties_pm,0)
+@popup(job_contact_pm,0)
+@popup(job_advanced_contact_popmenu,0)
+*job_option separation:stress
+*job_option sep_strs_measure:absolute
+*job_param sepstress 500
+*job_option sep_strs_deriv:extrapolation
+@popdown(job_advanced_contact_popmenu,0)
+@popdown(job_contact_pm,0)
+@popdown(job_properties_pm,0)
+@popup(job_run_popmenu,0)
+@set($popname2,job_run_parallelization_pm)
+@popup(job_run_parallelization_pm,0)
+*job_option parallel:on
+*job_param ndomains 4
+@popdown(job_run_parallelization_pm,0)
+*update_job
+*save_model
+|@|*save_as_model ug.e008.tubebend.01.mfd yes
+|@|*write_marc ug.e008.tubebend.01.dat yes
+|@|*quit yes
+*submit_job 1 
+*monitor_job
+pause 20 
+@main(loadcases)
+@popdown(job_run_popmenu,0)
+|@popdown(plot_popmenu,0)
+@popdown(job_properties_pm) @main(results) @popup(modelplot_pm) *post_open_default
+@popup(plot_popmenu,0)
+*set_surfaces on
+*regenerate
+@popdown(plot_popmenu,0)
+*edit_contact_body cbody5
+*invisible_bodies cbody5 # *regenerate
+@main(contact)
+*regenerate
+*post_contour_bands
+@popup(post_scalar_pm,0)
+*post_value Total Equivalent Plastic Strain
+@popdown(post_scalar_pm,0)
+*find_solid_outline
+@popup(modelplot_pm,0)
+*post_scan
+@popup(post_scan_pm,0)
+*post_skip_to 25
+|*fill_view
+|*trans_model_cspace_x_for
+|*trans_model_cspace_x_for
+|*trans_model_cspace_x_for
+
+*surfaces_solid *regenerate
+@popdown(modelplot_pm,0)
+*post_skip_to 60
+*fill_view
+*post_skip_to 100
+@popdown(post_scan_pm,0)
+@popup(view_lighting_pm,0)
+*set_lighting 4 off
+@popdown(view_lighting_pm,0)
+@popup(post_scalar_pm,0)
+*post_value Equivalent Von Mises Stress
+*set_autorange on
+@popdown(post_scalar_pm,0)
+*fill_view
+@main(jobs)
+@main(results)
+@popup(post_scalar_pm,0)
+*post_value Total Equivalent Plastic Strain
+@popdown(post_scalar_pm,0)
+@popup(animation_screen_pm,0)
+@popdown(animation_screen_pm,0)
+@popup(movies_pm,0)
+*create_movie ug.e008.tubebend.01.gif yes
+@popdown(movies_pm,0)
+@popdown(modelplot_pm,0)
+*fill_view
+@main(jobs)
+*identify_domains *regen
+*fill_view
