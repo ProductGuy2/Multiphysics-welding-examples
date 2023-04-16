@@ -21,4 +21,4 @@ We all experience physics-related phenomena daily as fluids act in harmony with 
 
 From headphones and speakers to electric vehicles and aircraft, sound and noise, acoustics are increasingly important to consumer experience. Hexagon’s acoustic simulation tools enable designers and engineers to understand the key parameters of the sounds we hear and design for optimum acoustic performance.
 
-### Multiphysics students may download free Hexagon software [here](https://hexagon.com/products/msc-apex-student-edition?_ga=2.261971466.623384092.1681368289-1219324398.1637183295)
+### Multiphysics students may download free Hexagon software [here](https://hexagon.com/products/msc-apex-student-edition?_ga=2.261971466.623384092.1681368289-1219324398.1637183295) 
